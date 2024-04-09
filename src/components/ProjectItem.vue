@@ -1,32 +1,44 @@
 <template>
   <li
-    class="relative box-border max-h-96 w-full rounded border-l-4 border-l-red-600 bg-white p-5 shadow-md ring-1 ring-gray-300 ring-opacity-50"
+    class="box-border flex w-full items-start justify-between rounded border-l-4 bg-white px-5 py-8 shadow-md ring-1 ring-gray-300 ring-opacity-50"
+    :class="{
+      'border-l-green-600': props.project.complete,
+      'border-l-red-600': !props.project.complete,
+    }"
   >
-    <h3
-      class="cursor-pointer text-2xl font-bold"
-      @click="showDetails = !showDetails"
-    >
-      {{ project.title }}
-    </h3>
-    <div class="absolute right-5 top-5">
-      <span
-        class="material-icons ml-2 cursor-pointer text-2xl text-gray-400 hover:text-gray-600"
+    <div class="flex-grow">
+      <h3
+        class="cursor-pointer text-2xl font-bold text-gray-700"
+        @click="showDetails = !showDetails"
       >
-        edit
-      </span>
+        {{ project.title }}
+      </h3>
+      <p class="ml-2 mt-7 text-lg" v-if="showDetails">{{ project.details }}</p>
+    </div>
+    <div>
+      <router-link
+        :to="{ name: 'EditProject', params: { id: props.project.id } }"
+      >
+        <span
+          class="material-icons ml-2 cursor-pointer text-3xl text-gray-400 hover:text-gray-600"
+        >
+          edit
+        </span>
+      </router-link>
       <span
         @click="deleteProject"
-        class="material-icons ml-2 cursor-pointer text-2xl text-gray-400 hover:text-gray-600"
+        class="material-icons ml-2 cursor-pointer text-3xl text-gray-400 hover:text-red-600"
       >
         delete
       </span>
       <span
-        class="material-icons ml-2 cursor-pointer text-2xl text-gray-400 hover:text-gray-600"
+        @click="toggleComplete"
+        :class="{ 'text-green-600': props.project.complete }"
+        class="material-icons ml-2 cursor-pointer text-3xl font-bold text-gray-400 hover:text-green-700"
       >
         done
       </span>
     </div>
-    <p class="ml-px mt-4 text-lg" v-if="showDetails">{{ project.details }}</p>
   </li>
 </template>
 
@@ -38,10 +50,24 @@ const props = defineProps({
   project: Object,
 });
 
+const emit = defineEmits(["delete", "complete"]);
+
 const showDetails = ref(false);
 
+async function toggleComplete() {
+  await supabase
+    .from("projects")
+    .update({ complete: !props.project.complete })
+    .eq("id", props.project.id)
+    .then(() => emit("complete", props.project.id));
+}
+
 async function deleteProject(e) {
-  await supabase.from("projects").delete().eq("id", props.project.id);
+  await supabase
+    .from("projects")
+    .delete()
+    .eq("id", props.project.id)
+    .then(() => emit("delete", props.project.id));
   e.target.closest("li").remove();
 }
 </script>

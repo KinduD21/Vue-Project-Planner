@@ -7,6 +7,8 @@
       v-for="project in projects"
       :key="project.id"
       :project="project"
+      @delete="handleDelete"
+      @complete="handleComplete"
     />
   </ul>
 </template>
@@ -21,6 +23,18 @@ const projects = ref([]);
 onMounted(async () => {
   const { data } = await supabase.from("projects").select();
   projects.value = data;
-  console.log(projects.value);
 });
+
+function handleComplete(id) {
+  let p = projects.value.find((project) => {
+    return project.id === id;
+  });
+  p.complete = !p.complete;
+}
+
+function handleDelete(id) {
+  projects.value = projects.value.filter((project) => {
+    return project.id !== id;
+  });
+}
 </script>
