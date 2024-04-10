@@ -1,10 +1,11 @@
 <template>
+  <FilterNav @filterChange="current = $event" :current="current" />
   <ul
     v-if="projects.length"
-    class="mx-auto my-10 flex max-w-2xl flex-col items-center justify-center gap-5"
+    class="mx-auto my-5 flex max-w-2xl flex-col items-center justify-center gap-5"
   >
     <ProjectItem
-      v-for="project in projects"
+      v-for="project in filteredProjects"
       :key="project.id"
       :project="project"
       @delete="handleDelete"
@@ -16,9 +17,11 @@
 <script setup>
 import { supabase } from "../lib/supabaseClient.js";
 import ProjectItem from "../components/ProjectItem.vue";
-import { ref, onMounted } from "vue";
+import FilterNav from "../components/FilterNav.vue";
+import { ref, onMounted, computed } from "vue";
 
 const projects = ref([]);
+const current = ref("all");
 
 onMounted(async () => {
   const { data } = await supabase.from("projects").select();
@@ -37,4 +40,14 @@ function handleDelete(id) {
     return project.id !== id;
   });
 }
+
+const filteredProjects = computed(() => {
+  if (current.value === "completed") {
+    return projects.value.filter((project) => project.complete);
+  } else if (current.value === "ongoing") {
+    return projects.value.filter((project) => !project.complete);
+  } else {
+    return projects.value;
+  }
+});
 </script>

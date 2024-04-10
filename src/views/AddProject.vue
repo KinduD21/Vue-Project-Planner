@@ -11,7 +11,7 @@
       type="text"
       v-model="title"
       required
-      class="box-border w-full border-b border-gray-300 p-2.5"
+      class="box-border w-full border-b border-gray-300 p-2.5 focus-visible:outline-green-600"
     />
     <label
       class="mb-2.5 mt-5 block text-sm font-bold uppercase tracking-wider text-gray-400"
@@ -20,7 +20,7 @@
     <textarea
       v-model="details"
       required
-      class="box-border h-24 w-full border-b border-gray-300 p-2.5"
+      class="box-border h-24 w-full border-b border-gray-300 p-2.5 focus-visible:outline-green-600"
     ></textarea>
     <button
       @click="addProject"

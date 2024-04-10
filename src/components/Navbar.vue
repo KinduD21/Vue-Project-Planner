@@ -5,7 +5,8 @@
       class="mx-2.5 my-0 border-b-2 pb-1 text-xl text-gray-600 transition duration-200"
       :class="{
         'border-b-green-600': $route.name === 'Home',
-        'border-b-transparent': $route.name === 'AddProject',
+        'border-b-transparent':
+          $route.name === 'AddProject' || $route.name === 'EditProject',
       }"
       >Projects</router-link
     >
@@ -14,9 +15,11 @@
       class="mx-2.5 my-0 border-b-2 pb-1 text-xl text-gray-600 transition duration-200"
       :class="{
         'border-b-green-600': $route.name === 'AddProject',
-        'border-b-transparent': $route.name === 'Home',
+        'border-b-transparent':
+          $route.name === 'Home' || $route.name === 'EditProject',
       }"
-      >Add a New Project</router-link
     >
+      Add a New Project
+    </router-link>
   </nav>
 </template>
