@@ -2,7 +2,7 @@
   <FilterNav @filterChange="current = $event" :current="current" />
   <ul
     v-if="projects.length"
-    class="mx-auto my-5 flex max-w-2xl flex-col items-center justify-center gap-5"
+    class="flex w-full flex-col items-center gap-5 px-5"
   >
     <ProjectItem
       v-for="project in filteredProjects"
