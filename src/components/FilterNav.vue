@@ -2,21 +2,21 @@
   <nav class="mt-5 text-left">
     <button
       @click="updateFilter('all')"
-      class="mr-6 cursor-pointer text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500"
+      class="mr-6 cursor-pointer text-sm font-bold uppercase tracking-wider text-gray-400"
       :class="{ 'text-gray-600 dark:text-gray-300': current === 'all' }"
     >
       View All
     </button>
     <button
       @click="updateFilter('completed')"
-      class="mr-6 cursor-pointer text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500"
+      class="mr-6 cursor-pointer text-sm font-bold uppercase tracking-wider text-gray-400"
       :class="{ 'text-gray-600 dark:text-gray-300': current === 'completed' }"
     >
       Completed
     </button>
     <button
       @click="updateFilter('ongoing')"
-      class="mr-6 cursor-pointer text-sm font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500"
+      class="mr-6 cursor-pointer text-sm font-bold uppercase tracking-wider text-gray-400"
       :class="{ 'text-gray-600 dark:text-gray-300': current === 'ongoing' }"
     >
       Ongoing
